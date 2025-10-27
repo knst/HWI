@@ -93,9 +93,9 @@ class JadeClient(HardwareWalletClient):
     MIN_SUPPORTED_FW_VERSION = semver.VersionInfo(0, 1, 32)
     PSBT_SUPPORTED_FW_VERSION = semver.VersionInfo(0, 1, 47)
 
+    # [DASHIFIED] Signet is hidden
     NETWORKS = {Chain.MAIN: 'mainnet',
                 Chain.TEST: 'testnet',
-                Chain.SIGNET: 'testnet',  # same as far as Jade is concerned
                 Chain.REGTEST: 'localtest'}
 
     def _network(self) -> str:
@@ -103,13 +103,11 @@ class JadeClient(HardwareWalletClient):
             raise BadArgumentError(f'Unhandled network: {self.chain}')
         return self.NETWORKS[self.chain]
 
-    ADDRTYPES = {AddressType.LEGACY: 'pkh(k)',
-                 AddressType.WIT: 'wpkh(k)',
-                 AddressType.SH_WIT: 'sh(wpkh(k))'}
+    # [DASHIFIED] only legacy type is kept
+    ADDRTYPES = {AddressType.LEGACY: 'pkh(k)'}
 
-    MULTI_ADDRTYPES = {AddressType.LEGACY: 'sh(multi(k))',
-                       AddressType.WIT: 'wsh(multi(k))',
-                       AddressType.SH_WIT: 'sh(wsh(multi(k)))'}
+    # [DASHIFIED] only legacy type is kept
+    MULTI_ADDRTYPES = {AddressType.LEGACY: 'sh(multi(k))'}
 
     @classmethod
     def _convertAddrType(cls, addrType: AddressType, multisig: bool) -> str:
